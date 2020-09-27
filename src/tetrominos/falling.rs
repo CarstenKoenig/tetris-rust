@@ -10,6 +10,10 @@ impl FallingTetromino {
         self.tetromino.rotate();
     }
 
+    pub fn drop(&mut self) {
+        self.coord += point(0, 1)
+    }
+
     pub fn draw(&self, c: &Context, g: &mut G2d) {
         self.tetromino.draw(self.coord, &c, g);
     }

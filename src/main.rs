@@ -13,8 +13,9 @@ mod tetrominos;
 use point::*;
 
 fn main() {
-    let mut next_rotate: f64 = 1.0;
-    let mut test = tetrominos::falling::create(point(2, 4), tetrominos::create_j());
+    let mut next_rotate: f64 = 0.3;
+    let mut next_drop: f64 = 1.0;
+    let mut test = tetrominos::falling::create(point(3, -4), tetrominos::create_j());
     let mut window: PistonWindow = WindowSettings::new("rusty TETRIS", [800, 1024])
         .exit_on_esc(true)
         .resizable(false)
@@ -26,6 +27,11 @@ fn main() {
             while next_rotate <= 0.0 {
                 test.rotate();
                 next_rotate += 1.0;
+            }
+            next_drop -= a.dt;
+            while next_drop <= 0.0 {
+                test.drop();
+                next_drop += 1.0;
             }
         }
         if let Event::Loop(Loop::Render(_)) = e {

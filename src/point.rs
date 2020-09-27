@@ -106,6 +106,13 @@ impl Point {
     }
 }
 
+impl ops::AddAssign for Point {
+    fn add_assign(&mut self, _rhs: Self) {
+        self.x += _rhs.x;
+        self.y += _rhs.y;
+    }
+}
+
 pub fn point(x: i32, y: i32) -> Point {
     Point { x, y }
 }
