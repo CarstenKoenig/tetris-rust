@@ -106,6 +106,6 @@ impl Point {
     }
 }
 
-pub fn create_point(x: i32, y: i32) -> Point {
+pub fn point(x: i32, y: i32) -> Point {
     Point { x, y }
 }

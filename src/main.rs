@@ -31,7 +31,7 @@ fn main() {
                 clear([0.0, 0.0, 0.0, 1.0], g);
                 draw_board(&c, g);
 
-                test.draw(2, 4, &c, g);
+                test.draw(point::point(2, 4), &c, g);
             });
         }
     }

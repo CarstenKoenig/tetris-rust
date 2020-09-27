@@ -1,15 +1,7 @@
-#[path = "./point.rs"]
-mod point;
-
-#[path = "./colors.rs"]
-mod colors;
-
-#[path = "./draw.rs"]
-mod draw;
-
-use colors::*;
+use super::colors::*;
+use super::draw;
+use super::point::*;
 use piston_window::*;
-use point::*;
 
 pub struct Tetromino {
     blocks: Vec<Coord>,
@@ -31,8 +23,8 @@ impl Tetromino {
             .collect()
     }
 
-    pub fn draw(&self, x: i32, y: i32, c: &Context, g: &mut G2d) {
-        for pt in self.points(create_point(x, y)).iter() {
+    pub fn draw(&self, at: Point, c: &Context, g: &mut G2d) {
+        for pt in self.points(at).iter() {
             draw::draw_block(self.color, pt.x, pt.y, c, g)
         }
     }
