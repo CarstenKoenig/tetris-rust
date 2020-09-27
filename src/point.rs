@@ -1,13 +1,13 @@
 use std::ops;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
-struct Coord {
+pub struct Coord {
     x: f64,
     y: f64,
 }
 
 impl Coord {
-    pub fn toCoord(self) -> Point {
+    pub fn to_point(self) -> Point {
         Point {
             x: self.x.floor() as i32,
             y: self.y.floor() as i32,
@@ -19,9 +19,15 @@ impl Coord {
             y: self.x,
         }
     }
-    pub fn rotate90_at(self, at: Coord) -> Coord {
-        (self - at).rotate90() + at
+    pub fn rotate90_at(&mut self, at: Coord) {
+        *self -= at;
+        *self = self.rotate90();
+        *self += at;
     }
+}
+
+pub fn coord(x: f64, y: f64) -> Coord {
+    Coord { x, y }
 }
 
 impl ops::Neg for Coord {
@@ -85,13 +91,14 @@ impl ops::MulAssign<f64> for Coord {
     }
 }
 
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Point {
-    x: i32,
-    y: i32,
+    pub x: i32,
+    pub y: i32,
 }
 
 impl Point {
-    pub fn toCoord(self) -> Coord {
+    pub fn to_coord(self) -> Coord {
         Coord {
             x: self.x as f64,
             y: self.y as f64,

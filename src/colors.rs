@@ -1,4 +1,4 @@
-use piston_window::types::Color;
+pub use piston_window::types::Color;
 
 pub const RED: Color = [1.0, 0.0, 0.0, 1.0];
 pub const GREEN: Color = [0.0, 1.0, 0.0, 1.0];

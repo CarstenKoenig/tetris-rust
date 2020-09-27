@@ -19,7 +19,7 @@ fn darker(color: Color) -> Color {
 
 pub fn draw_block(color: Color, x: i32, y: i32, con: &Context, g: &mut G2d) {
     let screen_x = (((2 * x - GRID_WIDTH - 1) as f64 + 0.5) * BLOCK_SIZE + WINDOW_WIDTH) / 2.0;
-    let screen_y = ((GRID_HEIGHT - y - 1) as f64) * BLOCK_SIZE;
+    let screen_y = (y as f64) * BLOCK_SIZE;
 
     rectangle(
         darker(color),
