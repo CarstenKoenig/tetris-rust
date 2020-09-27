@@ -15,7 +15,7 @@ use point::*;
 fn main() {
     let mut next_rotate: f64 = 0.3;
     let mut next_drop: f64 = 1.0;
-    let mut test = tetrominos::falling::create(point(3, -4), tetrominos::create_j());
+    let mut test = tetrominos::falling::create_rnd(point(3, -4));
     let mut window: PistonWindow = WindowSettings::new("rusty TETRIS", [800, 1024])
         .exit_on_esc(true)
         .resizable(false)

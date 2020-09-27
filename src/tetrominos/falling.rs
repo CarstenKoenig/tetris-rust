@@ -33,3 +33,7 @@ pub fn create(pt: Point, t: Tetromino) -> FallingTetromino {
         tetromino: t,
     }
 }
+
+pub fn create_rnd(pt: Point) -> FallingTetromino {
+    create(pt, crate::tetrominos::create_rnd())
+}
