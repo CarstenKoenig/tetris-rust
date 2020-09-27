@@ -6,6 +6,7 @@ use piston_window::*;
 // connect to draw.rs
 mod colors;
 mod draw;
+mod point;
 
 fn main() {
     let mut window: PistonWindow = WindowSettings::new("rusty TETRIS", [800, 1024])
