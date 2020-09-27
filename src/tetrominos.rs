@@ -3,6 +3,8 @@ use super::draw;
 use super::point::*;
 use piston_window::*;
 
+pub mod falling;
+
 pub struct Tetromino {
     blocks: Vec<Coord>,
     color: Color,
@@ -30,7 +32,7 @@ impl Tetromino {
     }
 }
 
-pub fn t() -> Tetromino {
+pub fn create_t() -> Tetromino {
     Tetromino {
         color: BLUE,
         center: coord(0.0, 0.0),
@@ -43,7 +45,7 @@ pub fn t() -> Tetromino {
     }
 }
 
-pub fn o() -> Tetromino {
+pub fn create_o() -> Tetromino {
     Tetromino {
         color: GREEN,
         center: coord(0.5, 0.5),
@@ -56,7 +58,7 @@ pub fn o() -> Tetromino {
     }
 }
 
-pub fn l() -> Tetromino {
+pub fn create_l() -> Tetromino {
     Tetromino {
         color: RED,
         center: coord(0.0, 1.0),
@@ -69,7 +71,7 @@ pub fn l() -> Tetromino {
     }
 }
 
-pub fn j() -> Tetromino {
+pub fn create_j() -> Tetromino {
     Tetromino {
         color: PURPLE,
         center: coord(1.0, 1.0),
@@ -82,7 +84,7 @@ pub fn j() -> Tetromino {
     }
 }
 
-pub fn i() -> Tetromino {
+pub fn create_i() -> Tetromino {
     Tetromino {
         color: YELLOW,
         center: coord(0.0, 2.0),
@@ -95,7 +97,7 @@ pub fn i() -> Tetromino {
     }
 }
 
-pub fn s() -> Tetromino {
+pub fn create_s() -> Tetromino {
     Tetromino {
         color: CYAN,
         center: coord(0.0, 0.0),
@@ -108,7 +110,7 @@ pub fn s() -> Tetromino {
     }
 }
 
-pub fn z() -> Tetromino {
+pub fn create_z() -> Tetromino {
     Tetromino {
         color: ORANGE,
         center: coord(0.0, 0.0),

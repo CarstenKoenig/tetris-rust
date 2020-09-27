@@ -10,9 +10,11 @@ mod draw;
 mod point;
 mod tetrominos;
 
+use point::*;
+
 fn main() {
     let mut next_rotate: f64 = 1.0;
-    let mut test = tetrominos::j();
+    let mut test = tetrominos::falling::create(point(2, 4), tetrominos::create_j());
     let mut window: PistonWindow = WindowSettings::new("rusty TETRIS", [800, 1024])
         .exit_on_esc(true)
         .resizable(false)
@@ -31,7 +33,7 @@ fn main() {
                 clear([0.0, 0.0, 0.0, 1.0], g);
                 draw_board(&c, g);
 
-                test.draw(point::point(2, 4), &c, g);
+                test.draw(&c, g);
             });
         }
     }
