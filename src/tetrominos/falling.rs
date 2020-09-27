@@ -34,6 +34,15 @@ pub fn create(pt: Point, t: Tetromino) -> FallingTetromino {
     }
 }
 
-pub fn create_rnd(pt: Point) -> FallingTetromino {
-    create(pt, crate::tetrominos::create_rnd())
+pub fn create_rnd() -> FallingTetromino {
+    let mut rng = thread_rng();
+    match rng.gen_range(0, 7) {
+        0 => create(point(4, -2), crate::tetrominos::create_l()),
+        1 => create(point(4, -1), crate::tetrominos::create_t()),
+        2 => create(point(4, -1), crate::tetrominos::create_j()),
+        3 => create(point(4, -3), crate::tetrominos::create_i()),
+        4 => create(point(4, -1), crate::tetrominos::create_s()),
+        5 => create(point(4, -1), crate::tetrominos::create_z()),
+        _ => create(point(4, -1), crate::tetrominos::create_o()),
+    }
 }

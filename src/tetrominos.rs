@@ -123,16 +123,3 @@ pub fn create_z() -> Tetromino {
         ],
     }
 }
-
-pub fn create_rnd() -> Tetromino {
-    let mut rng = thread_rng();
-    match rng.gen_range(0, 7) {
-        0 => create_t(),
-        1 => create_o(),
-        2 => create_l(),
-        3 => create_j(),
-        4 => create_i(),
-        5 => create_s(),
-        _ => create_z(),
-    }
-}
