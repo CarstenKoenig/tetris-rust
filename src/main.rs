@@ -1,7 +1,6 @@
 extern crate piston_window;
 extern crate rand;
 
-use piston_window::Event;
 use piston_window::*;
 
 // connect to draw.rs
@@ -17,15 +16,19 @@ fn main() {
         .resizable(false)
         .build()
         .unwrap();
+
     while let Some(e) = window.next() {
-        if let Event::Loop(Loop::Update(a)) = e {
-            next_drop -= a.dt;
+        // Update-Loop
+        if let Some(UpdateArgs { dt }) = e.update_args() {
+            next_drop -= dt;
             while next_drop <= 0.0 {
                 test.drop();
                 next_drop += 1.0;
             }
         }
-        if let Event::Loop(Loop::Render(_)) = e {
+
+        // Render-Loop
+        if let Some(_) = e.render_args() {
             window.draw_2d(&e, |c, g, _| {
                 clear([0.0, 0.0, 0.0, 1.0], g);
                 draw_board(&c, g);
@@ -34,6 +37,7 @@ fn main() {
             });
         }
 
+        // Input-Loop
         if let Some(k) = e.button_args() {
             if k.state == ButtonState::Press {
                 match k.button {
