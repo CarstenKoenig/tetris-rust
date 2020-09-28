@@ -11,9 +11,10 @@ use tetris::*;
 
 fn main() {
     let cfg = graphics::Graphics { rows: 20, cols: 10 };
-    let grid = crate::tetris::grid::create_empty(20, 10);
+    let mut grid = crate::tetris::grid::create_empty(20, 10);
     let mut next_drop: f64 = 1.0;
     let mut test = tetrominos::falling::create_rnd();
+    grid.add_tetromino(&test);
     let mut window: PistonWindow = WindowSettings::new("rusty TETRIS", [800, 1024])
         .exit_on_esc(true)
         .resizable(false)

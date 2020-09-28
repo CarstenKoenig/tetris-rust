@@ -1,8 +1,11 @@
 use super::graphics;
+use super::tetrominos::falling::FallingTetromino;
 use piston_window::types::Color;
 use piston_window::{Context, G2d};
 
 pub struct Grid {
+    rows: i32,
+    cols: i32,
     cells: Vec<Vec<Value>>,
 }
 
@@ -14,9 +17,20 @@ impl Grid {
             }
         }
     }
+
+    pub fn add_tetromino(&mut self, t: &FallingTetromino) {
+        for pt in t.tetromino.points(t.coord) {
+            if pt.y < 0 || pt.y >= self.rows || pt.x < 0 || pt.x >= self.cols {
+                continue;
+            }
+            self.cells[pt.y as usize][pt.x as usize] = Value::Block {
+                color: t.tetromino.color,
+            }
+        }
+    }
 }
 
-pub fn create_empty(rows: usize, cols: usize) -> Grid {
+pub fn create_empty(rows: i32, cols: i32) -> Grid {
     let mut cells = Vec::new();
     for _ in 0..rows {
         let mut grid_row = Vec::new();
@@ -25,7 +39,7 @@ pub fn create_empty(rows: usize, cols: usize) -> Grid {
         }
         cells.push(grid_row);
     }
-    Grid { cells }
+    Grid { rows, cols, cells }
 }
 
 #[derive(Debug, Copy, Clone)]

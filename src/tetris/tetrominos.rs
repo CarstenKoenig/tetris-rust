@@ -9,7 +9,7 @@ pub mod falling;
 
 pub struct Tetromino {
     blocks: Vec<Coord>,
-    color: colors::Color,
+    pub color: colors::Color,
     center: Coord,
 }
 
@@ -20,7 +20,7 @@ impl Tetromino {
         }
     }
 
-    fn points(&self, pt: Point) -> Vec<Point> {
+    pub fn points(&self, pt: Point) -> Vec<Point> {
         self.blocks
             .iter()
             .map(|&c| (c + pt.to_coord()).to_point())
