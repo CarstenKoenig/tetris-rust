@@ -10,6 +10,8 @@ mod tetris;
 use tetris::*;
 
 fn main() {
+    let cfg = graphics::Graphics { rows: 20, cols: 10 };
+    let grid = crate::tetris::grid::create_empty(20, 10);
     let mut next_drop: f64 = 1.0;
     let mut test = tetrominos::falling::create_rnd();
     let mut window: PistonWindow = WindowSettings::new("rusty TETRIS", [800, 1024])
@@ -32,9 +34,8 @@ fn main() {
         if e.render_args().is_some() {
             window.draw_2d(&e, |c, g, _| {
                 clear([0.0, 0.0, 0.0, 1.0], g);
-                draw_board(&c, g);
-
-                test.draw(&c, g);
+                grid.draw(&cfg, &c, g);
+                test.draw(&cfg, &c, g);
             });
         }
 
@@ -49,14 +50,6 @@ fn main() {
                     _ => (),
                 }
             }
-        }
-    }
-}
-
-fn draw_board(c: &Context, g: &mut G2d) {
-    for y in 0..20 {
-        for x in 0..10 {
-            graphics::draw_block([0.1, 0.1, 0.1, 1.0], x, y, &c, g);
         }
     }
 }

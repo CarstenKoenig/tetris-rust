@@ -27,9 +27,9 @@ impl Tetromino {
             .collect()
     }
 
-    pub fn draw(&self, at: Point, c: &Context, g: &mut G2d) {
+    pub fn draw(&self, cfg: &graphics::Graphics, at: Point, c: &Context, g: &mut G2d) {
         for pt in self.points(at).iter() {
-            graphics::draw_block(self.color, pt.x, pt.y, c, g)
+            cfg.draw_block(self.color, pt.x, pt.y, c, g)
         }
     }
 }

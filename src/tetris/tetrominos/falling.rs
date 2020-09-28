@@ -23,8 +23,8 @@ impl FallingTetromino {
         self.coord += point(1, 0)
     }
 
-    pub fn draw(&self, c: &Context, g: &mut G2d) {
-        self.tetromino.draw(self.coord, &c, g);
+    pub fn draw(&self, cfg: &graphics::Graphics, c: &Context, g: &mut G2d) {
+        self.tetromino.draw(cfg, self.coord, &c, g);
     }
 }
 
