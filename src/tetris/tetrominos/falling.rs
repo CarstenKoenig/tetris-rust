@@ -1,4 +1,5 @@
-use crate::tetrominos::*;
+use super::super::primitives::point::{point, Point};
+use super::*;
 
 pub struct FallingTetromino {
     coord: Point,
@@ -37,12 +38,12 @@ pub fn create(pt: Point, t: Tetromino) -> FallingTetromino {
 pub fn create_rnd() -> FallingTetromino {
     let mut rng = thread_rng();
     match rng.gen_range(0, 7) {
-        0 => create(point(4, -2), crate::tetrominos::create_l()),
-        1 => create(point(4, -1), crate::tetrominos::create_t()),
-        2 => create(point(4, -1), crate::tetrominos::create_j()),
-        3 => create(point(4, -3), crate::tetrominos::create_i()),
-        4 => create(point(4, -1), crate::tetrominos::create_s()),
-        5 => create(point(4, -1), crate::tetrominos::create_z()),
-        _ => create(point(4, -1), crate::tetrominos::create_o()),
+        0 => create(point(4, -2), create_l()),
+        1 => create(point(4, -1), create_t()),
+        2 => create(point(4, -1), create_j()),
+        3 => create(point(4, -3), create_i()),
+        4 => create(point(4, -1), create_s()),
+        5 => create(point(4, -1), create_z()),
+        _ => create(point(4, -1), create_o()),
     }
 }

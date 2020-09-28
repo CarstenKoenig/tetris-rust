@@ -1,6 +1,7 @@
-use super::colors::*;
-use super::draw;
-use super::point::*;
+use super::graphics;
+use super::primitives::colors;
+use super::primitives::coord::{coord, Coord};
+use super::primitives::point::Point;
 use piston_window::*;
 use rand::{thread_rng, Rng};
 
@@ -8,7 +9,7 @@ pub mod falling;
 
 pub struct Tetromino {
     blocks: Vec<Coord>,
-    color: Color,
+    color: colors::Color,
     center: Coord,
 }
 
@@ -28,14 +29,14 @@ impl Tetromino {
 
     pub fn draw(&self, at: Point, c: &Context, g: &mut G2d) {
         for pt in self.points(at).iter() {
-            draw::draw_block(self.color, pt.x, pt.y, c, g)
+            graphics::draw_block(self.color, pt.x, pt.y, c, g)
         }
     }
 }
 
 pub fn create_t() -> Tetromino {
     Tetromino {
-        color: BLUE,
+        color: colors::BLUE,
         center: coord(0.0, 0.0),
         blocks: vec![
             coord(-1.0, 0.0),
@@ -48,7 +49,7 @@ pub fn create_t() -> Tetromino {
 
 pub fn create_o() -> Tetromino {
     Tetromino {
-        color: GREEN,
+        color: colors::GREEN,
         center: coord(0.5, 0.5),
         blocks: vec![
             coord(0.0, 0.0),
@@ -61,7 +62,7 @@ pub fn create_o() -> Tetromino {
 
 pub fn create_l() -> Tetromino {
     Tetromino {
-        color: RED,
+        color: colors::RED,
         center: coord(0.0, 1.0),
         blocks: vec![
             coord(0.0, 0.0),
@@ -74,7 +75,7 @@ pub fn create_l() -> Tetromino {
 
 pub fn create_j() -> Tetromino {
     Tetromino {
-        color: PURPLE,
+        color: colors::PURPLE,
         center: coord(1.0, 1.0),
         blocks: vec![
             coord(1.0, 0.0),
@@ -87,7 +88,7 @@ pub fn create_j() -> Tetromino {
 
 pub fn create_i() -> Tetromino {
     Tetromino {
-        color: YELLOW,
+        color: colors::YELLOW,
         center: coord(0.0, 2.0),
         blocks: vec![
             coord(0.0, 0.0),
@@ -100,7 +101,7 @@ pub fn create_i() -> Tetromino {
 
 pub fn create_s() -> Tetromino {
     Tetromino {
-        color: CYAN,
+        color: colors::CYAN,
         center: coord(0.0, 0.0),
         blocks: vec![
             coord(-1.0, 0.0),
@@ -113,7 +114,7 @@ pub fn create_s() -> Tetromino {
 
 pub fn create_z() -> Tetromino {
     Tetromino {
-        color: ORANGE,
+        color: colors::ORANGE,
         center: coord(0.0, 0.0),
         blocks: vec![
             coord(1.0, 0.0),

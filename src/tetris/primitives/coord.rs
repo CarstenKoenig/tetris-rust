@@ -1,9 +1,10 @@
+use super::point::Point;
 use std::ops;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Coord {
-    x: f64,
-    y: f64,
+    pub x: f64,
+    pub y: f64,
 }
 
 impl Coord {
@@ -89,30 +90,4 @@ impl ops::MulAssign<f64> for Coord {
         self.x *= rhs;
         self.y *= rhs;
     }
-}
-
-#[derive(Debug, Copy, Clone, PartialEq)]
-pub struct Point {
-    pub x: i32,
-    pub y: i32,
-}
-
-impl Point {
-    pub fn to_coord(self) -> Coord {
-        Coord {
-            x: self.x as f64,
-            y: self.y as f64,
-        }
-    }
-}
-
-impl ops::AddAssign for Point {
-    fn add_assign(&mut self, _rhs: Self) {
-        self.x += _rhs.x;
-        self.y += _rhs.y;
-    }
-}
-
-pub fn point(x: i32, y: i32) -> Point {
-    Point { x, y }
 }

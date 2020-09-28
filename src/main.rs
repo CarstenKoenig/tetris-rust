@@ -5,13 +5,11 @@ use piston_window::Event;
 use piston_window::*;
 
 // connect to draw.rs
-mod colors;
-mod draw;
-mod point;
-mod tetrominos;
+mod tetris;
+
+use tetris::*;
 
 fn main() {
-    let mut next_rotate: f64 = 0.3;
     let mut next_drop: f64 = 1.0;
     let mut test = tetrominos::falling::create_rnd();
     let mut window: PistonWindow = WindowSettings::new("rusty TETRIS", [800, 1024])
@@ -21,11 +19,6 @@ fn main() {
         .unwrap();
     while let Some(e) = window.next() {
         if let Event::Loop(Loop::Update(a)) = e {
-            next_rotate -= a.dt;
-            while next_rotate <= 0.0 {
-                test.rotate();
-                next_rotate += 1.0;
-            }
             next_drop -= a.dt;
             while next_drop <= 0.0 {
                 test.drop();
@@ -40,13 +33,25 @@ fn main() {
                 test.draw(&c, g);
             });
         }
+
+        if let Some(k) = e.button_args() {
+            if k.state == ButtonState::Press {
+                match k.button {
+                    Button::Keyboard(Key::Left) => test.move_left(),
+                    Button::Keyboard(Key::Right) => test.move_right(),
+                    Button::Keyboard(Key::Up) => test.rotate(),
+                    Button::Keyboard(Key::Down) => test.drop(),
+                    _ => (),
+                }
+            }
+        }
     }
 }
 
 fn draw_board(c: &Context, g: &mut G2d) {
     for y in 0..20 {
         for x in 0..10 {
-            draw::draw_block([0.1, 0.1, 0.1, 1.0], x, y, &c, g);
+            graphics::draw_block([0.1, 0.1, 0.1, 1.0], x, y, &c, g);
         }
     }
 }
