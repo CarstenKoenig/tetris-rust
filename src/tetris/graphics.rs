@@ -10,7 +10,7 @@ const GRID_HEIGHT: i32 = 20;
 const BLOCK_SIZE: f64 = WINDOW_HEIGHT / (GRID_HEIGHT as f64);
 
 fn darker(color: Color) -> Color {
-    let mut darker_color = color.clone();
+    let mut darker_color = color;
     darker_color[0] = 0.7 * color[0];
     darker_color[1] = 0.7 * color[1];
     darker_color[2] = 0.7 * color[2];

@@ -1,3 +1,4 @@
+#![warn(clippy::all)]
 extern crate piston_window;
 extern crate rand;
 
@@ -28,7 +29,7 @@ fn main() {
         }
 
         // Render-Loop
-        if let Some(_) = e.render_args() {
+        if e.render_args().is_some() {
             window.draw_2d(&e, |c, g, _| {
                 clear([0.0, 0.0, 0.0, 1.0], g);
                 draw_board(&c, g);
