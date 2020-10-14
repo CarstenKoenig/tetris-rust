@@ -109,7 +109,7 @@ pub fn create_i() -> Tetromino {
 pub fn create_s() -> Tetromino {
     Tetromino {
         color: colors::CYAN,
-        center: coord(0.0, 0.0),
+        center: coord(0.0, 0.5),
         blocks: vec![
             coord(-1.0, 0.0),
             coord(0.0, 0.0),
@@ -122,7 +122,7 @@ pub fn create_s() -> Tetromino {
 pub fn create_z() -> Tetromino {
     Tetromino {
         color: colors::ORANGE,
-        center: coord(0.0, 0.0),
+        center: coord(0.0, 0.5),
         blocks: vec![
             coord(1.0, 0.0),
             coord(0.0, 0.0),
