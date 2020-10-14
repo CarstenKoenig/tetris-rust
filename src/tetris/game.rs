@@ -42,6 +42,18 @@ impl Game {
         let rotated = self.falling.rotate();
         if self.grid.is_valid_tetromino(&rotated) {
             self.falling = rotated;
+        } else {
+            // try wall-kick-left
+            let kick_left = self.falling.move_left().rotate();
+            if self.grid.is_valid_tetromino(&kick_left) {
+                self.falling = kick_left;
+            } else {
+                // try wall-kick-right
+                let kick_right = self.falling.move_right().rotate();
+                if self.grid.is_valid_tetromino(&kick_right) {
+                    self.falling = kick_right;
+                }
+            }
         }
     }
 
