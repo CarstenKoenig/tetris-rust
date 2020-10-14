@@ -1,4 +1,5 @@
 use super::graphics;
+use super::primitives::point::Point;
 use super::tetrominos::falling::FallingTetromino;
 use piston_window::types::Color;
 use piston_window::{Context, G2d};
@@ -18,16 +19,38 @@ impl Grid {
         }
     }
 
-    pub fn add_tetromino(&mut self, t: &FallingTetromino) {
-        for pt in t.tetromino.points(t.coord) {
-            if pt.y < 0 || pt.y >= self.rows || pt.x < 0 || pt.x >= self.cols {
+    pub fn add_tetromino(&mut self, ft: &FallingTetromino) {
+        for pt in ft.points() {
+            if !self.in_bounds(pt, true) {
                 continue;
             }
             self.cells[pt.y as usize][pt.x as usize] = Value::Block {
-                color: t.tetromino.color,
+                color: ft.tetromino.color,
             }
         }
     }
+
+    pub fn is_valid_tetromino(&self, ft: &FallingTetromino) -> bool {
+        for pt in ft.points() {
+            if !self.in_bounds(pt, false) || self.is_overlapping(pt) {
+                return false;
+            }
+        };
+        true
+    }
+
+    fn in_bounds(&self, pt: Point, check_top: bool) -> bool {
+        (!check_top || pt.y >= 0) && pt.y < self.rows &&
+        pt.x >= 0 && pt.x < self.cols
+    }
+
+    fn is_overlapping(&self, pt: Point) -> bool {
+        // should only be called with a point inside bounds
+        // BUT: this can be called in in_bounds with an invalide pt.y so
+        // guard against that
+        pt.y >= 0 && self.cells[pt.y as usize][pt.x as usize].is_block()
+    }
+
 }
 
 pub fn create_empty(rows: i32, cols: i32) -> Grid {
@@ -49,6 +72,13 @@ pub enum Value {
 }
 
 impl Value {
+    pub fn is_block(self) -> bool {
+        match self {
+            Value::Empty => false,
+            Value::Block { color: _ } => true
+        }
+    }
+
     fn draw(&self, cfg: &graphics::Graphics, x: i32, y: i32, c: &Context, g: &mut G2d) {
         match self {
             Value::Empty => cfg.draw_block([0.1, 0.1, 0.1, 1.0], x, y, &c, g),

@@ -15,7 +15,7 @@ pub struct Tetromino {
 }
 
 impl Tetromino {
-    pub fn rotate(&mut self) -> Tetromino {
+    pub fn rotate(&self) -> Tetromino {
         let mut new_blocks = self.blocks.clone();
         for coord in new_blocks.iter_mut() {
             coord.rotate90_at(self.center);

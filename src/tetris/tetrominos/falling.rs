@@ -7,28 +7,32 @@ pub struct FallingTetromino {
 }
 
 impl FallingTetromino {
-    pub fn rotate(&mut self) -> FallingTetromino {
+    pub fn points(&self) -> Vec<Point> {
+        self.tetromino.points(self.coord)
+    }
+
+    pub fn rotate(&self) -> FallingTetromino {
         FallingTetromino {
             coord: self.coord,
             tetromino: self.tetromino.rotate()
         }
     }
 
-    pub fn drop(&mut self) -> FallingTetromino {
+    pub fn drop(&self) -> FallingTetromino {
         FallingTetromino {
             coord: self.coord + point(0, 1),
             tetromino: self.tetromino.clone()
         }
     }
 
-    pub fn move_left(&mut self) -> FallingTetromino {
+    pub fn move_left(&self) -> FallingTetromino {
         FallingTetromino {
             coord: self.coord + point(-1, 0),
             tetromino: self.tetromino.clone()
         }
     }
 
-    pub fn move_right(&mut self) -> FallingTetromino {
+    pub fn move_right(&self) -> FallingTetromino {
         FallingTetromino {
             coord: self.coord + point(1, 0),
             tetromino: self.tetromino.clone()
