@@ -33,7 +33,11 @@ fn main() {
         // Render-Loop
         if e.render_args().is_some() {
             window.draw_2d(&e, |c, g, device| {
-                clear([0.0, 0.0, 0.0, 1.0], g);
+                if game.game_over {
+                    clear([0.3, 0.1, 0.1, 1.0], g);
+                } else {
+                    clear([0.0, 0.0, 0.0, 1.0], g);
+                }
                 game.draw(&c, g);
 
                 // Draw Score top-left
@@ -45,6 +49,19 @@ fn main() {
                     transform,
                     g
                 ).unwrap();
+
+                // draw game-over if neccessary
+                if game.game_over {
+                    let transform = c.transform.trans(10.0, 80.0);
+                    text::Text::new_color([0.0, 0.0, 1.0, 1.0], 32).draw(
+                        "GAME OVER!",
+                        &mut glyphs,
+                        &c.draw_state,
+                        transform,
+                        g
+                    ).unwrap();
+                }
+
 
                 // Update glyphs before rendering
                 glyphs.factory.encoder.flush(device);

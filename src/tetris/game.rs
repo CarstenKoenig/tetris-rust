@@ -10,6 +10,7 @@ const SPEEDUP_FACTOR : f64 = 0.8;
 pub struct Game {
     cfg: Graphics,
     pub score: i32,
+    pub game_over: bool,
     grid: Grid,
     falling: FallingTetromino,
     speed: f64,
@@ -25,6 +26,7 @@ impl Game {
         Game {
             cfg: cfg,
             score: 0,
+            game_over: false,
             grid: grid,
             falling: falling,
             speed: INITIAL_SPEED,
@@ -34,6 +36,9 @@ impl Game {
     }
 
     pub fn update_time(&mut self, dt: f64) {
+        if self.game_over {
+            return ();
+        }
         self.next_drop -= dt;
         while self.next_drop <= 0.0 {
             let new_tetromino = self.drop();
@@ -55,6 +60,9 @@ impl Game {
     }
 
     pub fn rotate(&mut self) {
+        if self.game_over {
+            return ();
+        }
         let rotated = self.falling.rotate();
         if self.grid.is_valid_tetromino(&rotated) {
             self.falling = rotated;
@@ -74,10 +82,20 @@ impl Game {
     }
 
     pub fn drop(&mut self) -> bool {
+        if self.game_over {
+            return false;
+        }
         let dropped = self.falling.drop();
         if !self.grid.is_valid_tetromino(&dropped) {
             self.grid.add_tetromino(&self.falling);
+
             self.falling = super::tetrominos::falling::create_rnd();
+
+            if !self.grid.is_valid_tetromino(&self.falling) {
+                self.game_over = true;
+                return true;
+            }
+
             let removed = self.grid.remove_full_rows();
             self.update_score(removed);
             return true;
@@ -88,6 +106,9 @@ impl Game {
     }
 
     pub fn move_left(&mut self) {
+        if self.game_over {
+            return ();
+        }
         let moved = self.falling.move_left();
         if self.grid.is_valid_tetromino(&moved) {
             self.falling = moved;
@@ -95,6 +116,9 @@ impl Game {
     }
 
     pub fn move_right(&mut self) {
+        if self.game_over {
+            return ();
+        }
         let moved = self.falling.move_right();
         if self.grid.is_valid_tetromino(&moved) {
             self.falling = moved;
