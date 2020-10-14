@@ -18,3 +18,9 @@ cargo run
 ```
 
 **Have Fun**
+
+---
+
+## Does this work everywhere?
+
+[Piston](https://github.com/PistonDevelopers/piston/wiki/Frequently-Asked-Questions-(FAQ)) is cross-platform and I had no issue getting it to run under both Linux and Windows (I think I had to fetch some dependencies/dev-libraries for Linux but if you are on Linux this is probably no surprise for you - build it and google for the missing libraries and your distribution and you should find the solution easily).
