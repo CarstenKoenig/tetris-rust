@@ -1,7 +1,7 @@
 #![warn(clippy::all)]
+extern crate find_folder;
 extern crate piston_window;
 extern crate rand;
-extern crate find_folder;
 
 use piston_window::*;
 
@@ -17,9 +17,9 @@ fn main() {
         .build()
         .unwrap();
 
-
     let assets = find_folder::Search::ParentsThenKids(3, 3)
-        .for_folder("assets").unwrap();
+        .for_folder("assets")
+        .unwrap();
     let mut glyphs = window.load_font(assets.join("FiraCode-Bold.ttf")).unwrap();
 
     let mut game = game::Game::new(20, 10);
@@ -42,26 +42,23 @@ fn main() {
 
                 // Draw Score top-left
                 let transform = c.transform.trans(10.0, 30.0);
-                text::Text::new_color([0.0, 1.0, 0.0, 1.0], 32).draw(
-                    &game.score.to_string(),
-                    &mut glyphs,
-                    &c.draw_state,
-                    transform,
-                    g
-                ).unwrap();
+                text::Text::new_color([0.0, 1.0, 0.0, 1.0], 32)
+                    .draw(
+                        &game.score.to_string(),
+                        &mut glyphs,
+                        &c.draw_state,
+                        transform,
+                        g,
+                    )
+                    .unwrap();
 
                 // draw game-over if neccessary
                 if game.game_over {
                     let transform = c.transform.trans(10.0, 80.0);
-                    text::Text::new_color([0.0, 0.0, 1.0, 1.0], 32).draw(
-                        "GAME OVER!",
-                        &mut glyphs,
-                        &c.draw_state,
-                        transform,
-                        g
-                    ).unwrap();
+                    text::Text::new_color([0.0, 0.0, 1.0, 1.0], 32)
+                        .draw("GAME OVER!", &mut glyphs, &c.draw_state, transform, g)
+                        .unwrap();
                 }
-
 
                 // Update glyphs before rendering
                 glyphs.factory.encoder.flush(device);
@@ -75,7 +72,9 @@ fn main() {
                     Button::Keyboard(Key::Left) => game.move_left(),
                     Button::Keyboard(Key::Right) => game.move_right(),
                     Button::Keyboard(Key::Up) => game.rotate(),
-                    Button::Keyboard(Key::Down) => { game.drop(); () },
+                    Button::Keyboard(Key::Down) => {
+                        game.drop();
+                    }
                     _ => (),
                 }
             }

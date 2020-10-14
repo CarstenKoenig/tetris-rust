@@ -1,11 +1,11 @@
+use super::graphics::Graphics;
+use super::grid::Grid;
+use super::tetrominos::falling::FallingTetromino;
 use piston_window::{Context, G2d};
-use super::graphics::{Graphics};
-use super::grid::{Grid};
-use super::tetrominos::falling::{FallingTetromino};
 
-const INITIAL_SPEED : f64 = 0.8;
-const SPEEDUP_EVERY_TETROMINOS : i32 = 5;
-const SPEEDUP_FACTOR : f64 = 0.8;
+const INITIAL_SPEED: f64 = 0.8;
+const SPEEDUP_EVERY_TETROMINOS: i32 = 5;
+const SPEEDUP_FACTOR: f64 = 0.8;
 
 pub struct Game {
     cfg: Graphics,
@@ -15,7 +15,7 @@ pub struct Game {
     falling: FallingTetromino,
     speed: f64,
     next_drop: f64,
-    next_speed: i32
+    next_speed: i32,
 }
 
 impl Game {
@@ -24,20 +24,20 @@ impl Game {
         let cfg = Graphics { rows, cols };
         let falling = super::tetrominos::falling::create_rnd();
         Game {
-            cfg: cfg,
+            cfg,
             score: 0,
             game_over: false,
-            grid: grid,
-            falling: falling,
+            grid,
+            falling,
             speed: INITIAL_SPEED,
             next_drop: INITIAL_SPEED,
-            next_speed: SPEEDUP_EVERY_TETROMINOS
+            next_speed: SPEEDUP_EVERY_TETROMINOS,
         }
     }
 
     pub fn update_time(&mut self, dt: f64) {
         if self.game_over {
-            return ();
+            return;
         }
         self.next_drop -= dt;
         while self.next_drop <= 0.0 {
@@ -61,7 +61,7 @@ impl Game {
 
     pub fn rotate(&mut self) {
         if self.game_over {
-            return ();
+            return;
         }
         let rotated = self.falling.rotate();
         if self.grid.is_valid_tetromino(&rotated) {
@@ -98,16 +98,16 @@ impl Game {
 
             let removed = self.grid.remove_full_rows();
             self.update_score(removed);
-            return true;
+            true
         } else {
             self.falling = dropped;
-            return false;
+            false
         }
     }
 
     pub fn move_left(&mut self) {
         if self.game_over {
-            return ();
+            return;
         }
         let moved = self.falling.move_left();
         if self.grid.is_valid_tetromino(&moved) {
@@ -117,7 +117,7 @@ impl Game {
 
     pub fn move_right(&mut self) {
         if self.game_over {
-            return ();
+            return;
         }
         let moved = self.falling.move_right();
         if self.grid.is_valid_tetromino(&moved) {
