@@ -58,7 +58,7 @@ fn main() {
                     Button::Keyboard(Key::Left) => game.move_left(),
                     Button::Keyboard(Key::Right) => game.move_right(),
                     Button::Keyboard(Key::Up) => game.rotate(),
-                    Button::Keyboard(Key::Down) => game.drop(),
+                    Button::Keyboard(Key::Down) => { game.drop(); () },
                     _ => (),
                 }
             }

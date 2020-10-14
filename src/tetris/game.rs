@@ -3,12 +3,18 @@ use super::graphics::{Graphics};
 use super::grid::{Grid};
 use super::tetrominos::falling::{FallingTetromino};
 
+const INITIAL_SPEED : f64 = 0.8;
+const SPEEDUP_EVERY_TETROMINOS : i32 = 5;
+const SPEEDUP_FACTOR : f64 = 0.8;
+
 pub struct Game {
     cfg: Graphics,
     pub score: i32,
     grid: Grid,
     falling: FallingTetromino,
-    next_drop: f64
+    speed: f64,
+    next_drop: f64,
+    next_speed: i32
 }
 
 impl Game {
@@ -21,15 +27,25 @@ impl Game {
             score: 0,
             grid: grid,
             falling: falling,
-            next_drop: 1.0
+            speed: INITIAL_SPEED,
+            next_drop: INITIAL_SPEED,
+            next_speed: SPEEDUP_EVERY_TETROMINOS
         }
     }
 
     pub fn update_time(&mut self, dt: f64) {
         self.next_drop -= dt;
         while self.next_drop <= 0.0 {
-            self.drop();
-            self.next_drop += 1.0;
+            let new_tetromino = self.drop();
+            self.next_drop += self.speed;
+
+            if new_tetromino {
+                self.next_speed -= 1;
+                while self.next_speed <= 0 {
+                    self.speed *= SPEEDUP_FACTOR;
+                    self.next_speed += SPEEDUP_EVERY_TETROMINOS;
+                }
+            }
         }
     }
 
@@ -57,15 +73,17 @@ impl Game {
         }
     }
 
-    pub fn drop(&mut self) {
+    pub fn drop(&mut self) -> bool {
         let dropped = self.falling.drop();
         if !self.grid.is_valid_tetromino(&dropped) {
             self.grid.add_tetromino(&self.falling);
             self.falling = super::tetrominos::falling::create_rnd();
             let removed = self.grid.remove_full_rows();
             self.update_score(removed);
+            return true;
         } else {
-            self.falling = dropped
+            self.falling = dropped;
+            return false;
         }
     }
 
