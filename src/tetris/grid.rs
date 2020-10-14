@@ -11,6 +11,15 @@ pub struct Grid {
 }
 
 impl Grid {
+    pub fn new(rows: i32, cols: i32) -> Grid {
+        let mut cells = Vec::new();
+        for _ in 0..rows {
+            let grid_row = new_row(cols);
+            cells.push(grid_row);
+        }
+        Grid { rows, cols, cells }
+    }
+
     pub fn draw(&self, cfg: &graphics::Graphics, c: &Context, g: &mut G2d) {
         for (y, row) in self.cells.iter().enumerate() {
             for (x, cell) in row.iter().enumerate() {
@@ -39,6 +48,17 @@ impl Grid {
         true
     }
 
+    pub fn remove_full_rows(&mut self) {
+        for row in (0..self.rows).rev() {
+            if self.is_row_full(row as usize) {
+                self.remove_row(row as usize);
+            }
+        }
+        while self.cells.len() < self.rows as usize {
+            self.cells.insert(0, new_row(self.cols))
+        }
+    }
+
     fn in_bounds(&self, pt: Point, check_top: bool) -> bool {
         (!check_top || pt.y >= 0) && pt.y < self.rows &&
         pt.x >= 0 && pt.x < self.cols
@@ -51,18 +71,26 @@ impl Grid {
         pt.y >= 0 && self.cells[pt.y as usize][pt.x as usize].is_block()
     }
 
+    fn remove_row(&mut self, row: usize) {
+        self.cells.remove(row);
+    }
+
+    fn is_row_full(&self, row: usize) -> bool {
+        for col in 0..self.cols {
+            if !self.cells[row][col as usize].is_block() {
+                return false;
+            }
+        }
+        true
+    }
 }
 
-pub fn create_empty(rows: i32, cols: i32) -> Grid {
-    let mut cells = Vec::new();
-    for _ in 0..rows {
-        let mut grid_row = Vec::new();
-        for _ in 0..cols {
-            grid_row.push(Value::Empty);
-        }
-        cells.push(grid_row);
+fn new_row(cols: i32) -> Vec<Value> {
+    let mut grid_row = Vec::new();
+    for _ in 0..cols {
+        grid_row.push(Value::Empty);
     }
-    Grid { rows, cols, cells }
+    grid_row
 }
 
 #[derive(Debug, Copy, Clone)]

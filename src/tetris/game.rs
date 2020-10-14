@@ -1,6 +1,5 @@
 use piston_window::{Context, G2d};
 use super::graphics::{Graphics};
-use super::grid;
 use super::grid::{Grid};
 use super::tetrominos::falling::{FallingTetromino};
 
@@ -13,7 +12,7 @@ pub struct Game {
 
 impl Game {
     pub fn new(rows: i32, cols: i32) -> Game {
-        let grid = grid::create_empty(rows, cols);
+        let grid = Grid::new(rows, cols);
         let cfg = Graphics { rows, cols };
         let falling = super::tetrominos::falling::create_rnd();
         Game {
@@ -49,6 +48,7 @@ impl Game {
         if !self.grid.is_valid_tetromino(&dropped) {
             self.grid.add_tetromino(&self.falling);
             self.falling = super::tetrominos::falling::create_rnd();
+            self.grid.remove_full_rows();
         } else {
             self.falling = dropped
         }
