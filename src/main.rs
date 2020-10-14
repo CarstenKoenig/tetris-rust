@@ -1,6 +1,7 @@
 #![warn(clippy::all)]
 extern crate piston_window;
 extern crate rand;
+extern crate find_folder;
 
 use piston_window::*;
 
@@ -10,13 +11,18 @@ mod tetris;
 use tetris::*;
 
 fn main() {
-    let mut game = game::Game::new(20, 10);
-
     let mut window: PistonWindow = WindowSettings::new("rusty TETRIS", [800, 1024])
         .exit_on_esc(true)
         .resizable(false)
         .build()
         .unwrap();
+
+
+    let assets = find_folder::Search::ParentsThenKids(3, 3)
+        .for_folder("assets").unwrap();
+    let mut glyphs = window.load_font(assets.join("FiraCode-Bold.ttf")).unwrap();
+
+    let mut game = game::Game::new(20, 10);
 
     while let Some(e) = window.next() {
         // Update-Loop
@@ -26,9 +32,22 @@ fn main() {
 
         // Render-Loop
         if e.render_args().is_some() {
-            window.draw_2d(&e, |c, g, _| {
+            window.draw_2d(&e, |c, g, device| {
                 clear([0.0, 0.0, 0.0, 1.0], g);
                 game.draw(&c, g);
+
+                // Draw Score top-left
+                let transform = c.transform.trans(10.0, 30.0);
+                text::Text::new_color([0.0, 1.0, 0.0, 1.0], 32).draw(
+                    &game.score.to_string(),
+                    &mut glyphs,
+                    &c.draw_state,
+                    transform,
+                    g
+                ).unwrap();
+
+                // Update glyphs before rendering
+                glyphs.factory.encoder.flush(device);
             });
         }
 

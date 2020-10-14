@@ -48,15 +48,18 @@ impl Grid {
         true
     }
 
-    pub fn remove_full_rows(&mut self) {
+    pub fn remove_full_rows(&mut self) -> u32 {
+        let mut removed = 0;
         for row in (0..self.rows).rev() {
             if self.is_row_full(row as usize) {
+                removed += 1;
                 self.remove_row(row as usize);
             }
         }
         while self.cells.len() < self.rows as usize {
             self.cells.insert(0, new_row(self.cols))
         }
+        removed
     }
 
     fn in_bounds(&self, pt: Point, check_top: bool) -> bool {

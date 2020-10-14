@@ -5,6 +5,7 @@ use super::tetrominos::falling::{FallingTetromino};
 
 pub struct Game {
     cfg: Graphics,
+    pub score: i32,
     grid: Grid,
     falling: FallingTetromino,
     next_drop: f64
@@ -17,6 +18,7 @@ impl Game {
         let falling = super::tetrominos::falling::create_rnd();
         Game {
             cfg: cfg,
+            score: 0,
             grid: grid,
             falling: falling,
             next_drop: 1.0
@@ -48,7 +50,8 @@ impl Game {
         if !self.grid.is_valid_tetromino(&dropped) {
             self.grid.add_tetromino(&self.falling);
             self.falling = super::tetrominos::falling::create_rnd();
-            self.grid.remove_full_rows();
+            let removed = self.grid.remove_full_rows();
+            self.update_score(removed);
         } else {
             self.falling = dropped
         }
@@ -65,6 +68,12 @@ impl Game {
         let moved = self.falling.move_right();
         if self.grid.is_valid_tetromino(&moved) {
             self.falling = moved;
+        }
+    }
+
+    fn update_score(&mut self, removed_rows: u32) {
+        if removed_rows > 0 {
+            self.score += 4i32.pow(removed_rows);
         }
     }
 }
