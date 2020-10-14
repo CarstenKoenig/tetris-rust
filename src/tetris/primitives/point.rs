@@ -17,10 +17,13 @@ impl Point {
     }
 }
 
-impl ops::AddAssign for Point {
-    fn add_assign(&mut self, _rhs: Self) {
-        self.x += _rhs.x;
-        self.y += _rhs.y;
+impl ops::Add<Point> for Point {
+    type Output = Self;
+    fn add (self, _rhs: Self) -> Self {
+        Point {
+            x: self.x + _rhs.x,
+            y: self.y + _rhs.y
+        }
     }
 }
 

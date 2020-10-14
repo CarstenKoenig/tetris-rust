@@ -7,20 +7,32 @@ pub struct FallingTetromino {
 }
 
 impl FallingTetromino {
-    pub fn rotate(&mut self) {
-        self.tetromino.rotate();
+    pub fn rotate(&mut self) -> FallingTetromino {
+        FallingTetromino {
+            coord: self.coord,
+            tetromino: self.tetromino.rotate()
+        }
     }
 
-    pub fn drop(&mut self) {
-        self.coord += point(0, 1)
+    pub fn drop(&mut self) -> FallingTetromino {
+        FallingTetromino {
+            coord: self.coord + point(0, 1),
+            tetromino: self.tetromino.clone()
+        }
     }
 
-    pub fn move_left(&mut self) {
-        self.coord += point(-1, 0)
+    pub fn move_left(&mut self) -> FallingTetromino {
+        FallingTetromino {
+            coord: self.coord + point(-1, 0),
+            tetromino: self.tetromino.clone()
+        }
     }
 
-    pub fn move_right(&mut self) {
-        self.coord += point(1, 0)
+    pub fn move_right(&mut self) -> FallingTetromino {
+        FallingTetromino {
+            coord: self.coord + point(1, 0),
+            tetromino: self.tetromino.clone()
+        }
     }
 
     pub fn draw(&self, cfg: &graphics::Graphics, c: &Context, g: &mut G2d) {

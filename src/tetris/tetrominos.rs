@@ -7,6 +7,7 @@ use rand::{thread_rng, Rng};
 
 pub mod falling;
 
+#[derive(Debug, Clone)]
 pub struct Tetromino {
     blocks: Vec<Coord>,
     pub color: colors::Color,
@@ -14,9 +15,15 @@ pub struct Tetromino {
 }
 
 impl Tetromino {
-    pub fn rotate(&mut self) {
-        for coord in self.blocks.iter_mut() {
+    pub fn rotate(&mut self) -> Tetromino {
+        let mut new_blocks = self.blocks.clone();
+        for coord in new_blocks.iter_mut() {
             coord.rotate90_at(self.center);
+        };
+        Tetromino {
+            color: self.color,
+            center: self.center,
+            blocks: new_blocks
         }
     }
 

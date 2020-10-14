@@ -26,7 +26,7 @@ fn main() {
         if let Some(UpdateArgs { dt }) = e.update_args() {
             next_drop -= dt;
             while next_drop <= 0.0 {
-                test.drop();
+                test = test.drop();
                 next_drop += 1.0;
             }
         }
@@ -44,10 +44,10 @@ fn main() {
         if let Some(k) = e.button_args() {
             if k.state == ButtonState::Press {
                 match k.button {
-                    Button::Keyboard(Key::Left) => test.move_left(),
-                    Button::Keyboard(Key::Right) => test.move_right(),
-                    Button::Keyboard(Key::Up) => test.rotate(),
-                    Button::Keyboard(Key::Down) => test.drop(),
+                    Button::Keyboard(Key::Left) => test = test.move_left(),
+                    Button::Keyboard(Key::Right) => test = test.move_right(),
+                    Button::Keyboard(Key::Up) => test = test.rotate(),
+                    Button::Keyboard(Key::Down) => test = test.drop(),
                     _ => (),
                 }
             }
